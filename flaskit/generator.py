@@ -51,7 +51,7 @@ class Generator:
             "from flask import render_template\n\n"
             "@app.route('/')\n"
             "def index():\n"
-            "    return 'Hello — Flask MVP!'\n")
+            "    return 'Hello Flask MVP!'\n")
         self.write_file(root / "app/auth.py",
             "# Simple auth placeholder\n"
             "def register_routes(app):\n"
