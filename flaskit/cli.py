@@ -139,9 +139,7 @@ def create(
             style="green",
         )
     )
-    console.print(
-        f"Next steps:\n  cd {project_name}\n  flaskit up\n "
-    )
+    console.print(f"Next steps:\n  cd {project_name}\n  flaskit up")
 
     if vscode:
         # code = standard, code-oss = OSS builds on Linux, codium = VSCodium
@@ -237,16 +235,6 @@ def get_venv_pip(root: Path) -> Path:
     if platform.system() == "Windows":
         return root / ".venv" / "Scripts" / "pip.exe"
     return root / ".venv" / "bin" / "pip"
-
-
-def run_step(step_num: int, total: int, description: str, func, *args, **kwargs):
-    """Run a step with consistent formatting. Returns (success, error_message)."""
-    console.print(f"[bold cyan][{step_num}/{total}][/] {description}")
-    try:
-        result = func(*args, **kwargs)
-        return True, None
-    except Exception as e:
-        return False, str(e)
 
 
 @app.command()
@@ -526,33 +514,7 @@ except ImportError:
 
 
 # Alias 'new' to 'create' for convenience
-@app.command()
-def new(
-    project_name: str = typer.Argument(..., help="Project root folder"),
-    template: str = typer.Option(
-        "mvp", help="Template: mvp or saas", autocompletion=complete_template
-    ),
-    gitignore: bool = typer.Option(
-        False, "--gitignore", is_flag=True, help="Include .gitignore"
-    ),
-    readme: bool = typer.Option(
-        False, "--readme", is_flag=True, help="Include README.md"
-    ),
-    dockerfile: bool = typer.Option(
-        False, "--dockerfile", is_flag=True, help="Include Dockerfile"
-    ),
-    env_file: bool = typer.Option(
-        False, "--env-file", is_flag=True, help="Include .env"
-    ),
-    db: str = typer.Option(
-        "sqlite", help="Database: sqlite or postgresql", autocompletion=complete_db
-    ),
-    vscode: bool = typer.Option(
-        False, "--vscode", is_flag=True, help="Open project in VS Code after creation"
-    ),
-):
-    """Create a Flask project skeleton (alias for 'create')."""
-    create(project_name, template, gitignore, readme, dockerfile, env_file, db, vscode)
+app.command("new")(create)
 
 
 if __name__ == "__main__":
