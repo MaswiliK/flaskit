@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 140" width="480" height="140">
+  <defs>
+    <linearGradient id="flask-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFB347"/>
+      <stop offset="100%" stop-color="#FF6B35"/>
+    </linearGradient>
+    <linearGradient id="liquid-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#43B581"/>
+      <stop offset="100%" stop-color="#2D8B5E"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Flask body -->
+  <path d="M40,36 L40,55 L18,95 C14,102 14,105 18,110 C22,115 26,116 32,116 L88,116 C94,116 98,115 102,110 C106,105 106,102 102,95 L80,55 L80,36" fill="none" stroke="url(#flask-grad)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Flask neck -->
+  <line x1="40" y1="36" x2="80" y2="36" stroke="url(#flask-grad)" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Flask rim -->
+  <line x1="36" y1="28" x2="84" y2="28" stroke="url(#flask-grad)" stroke-width="5" stroke-linecap="round"/>
+  <line x1="40" y1="28" x2="40" y2="36" stroke="url(#flask-grad)" stroke-width="4" stroke-linecap="round"/>
+  <line x1="80" y1="28" x2="80" y2="36" stroke="url(#flask-grad)" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Liquid inside flask -->
+  <path d="M30,90 C38,84 50,96 60,88 C70,80 80,92 90,86 L102,95 C106,102 106,105 102,110 C98,115 94,116 88,116 L32,116 C26,116 22,115 18,110 C14,105 14,102 18,95 Z" fill="url(#liquid-grad)" opacity="0.85"/>
+
+  <!-- Bubbles -->
+  <circle cx="45" cy="100" r="3" fill="white" opacity="0.5"/>
+  <circle cx="65" cy="95" r="2" fill="white" opacity="0.4"/>
+  <circle cx="55" cy="105" r="2.5" fill="white" opacity="0.45"/>
+  <circle cx="72" cy="103" r="1.8" fill="white" opacity="0.35"/>
+
+  <!-- Steam / vapor lines -->
+  <path d="M50,22 C50,16 56,16 56,10" fill="none" stroke="#FFB347" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  <path d="M60,20 C60,12 66,12 66,4" fill="none" stroke="#FFB347" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <path d="M70,22 C70,16 76,16 76,10" fill="none" stroke="#FFB347" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+
+  <!-- Text: "Flask" -->
+  <text x="130" y="90" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700" fill="#2C3E50" letter-spacing="-1">Flask</text>
+
+  <!-- Text: "It" in accent color -->
+  <text x="338" y="90" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700" fill="#FF6B35" letter-spacing="-1">It</text>
+
+  <!-- Tagline -->
+  <text x="132" y="118" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#7F8C8D" letter-spacing="0.5">Just flask it.</text>
+</svg>

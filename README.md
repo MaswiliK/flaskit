@@ -1,8 +1,14 @@
-# FlaskIt
+<p align="center">
+  <img src="docs/assets/logo.png" alt="FlaskIt" width="480">
+</p>
 
-Flask Project Generator CLI — Just flask it.
+<p align="center">
+  Scaffold production-ready Flask projects from your terminal in seconds.
+</p>
 
-Scaffold production-ready Flask projects from your terminal in seconds. Choose between a lightweight **MVP** template or a modular **SaaS** template with blueprints, SQLAlchemy, and an app factory.
+---
+
+Choose between a lightweight **MVP** template or a modular **SaaS** template with blueprints, SQLAlchemy, and an app factory.
 
 ## Installation
 
