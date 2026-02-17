@@ -7,7 +7,7 @@ FlaskIt ships with two project templates: **MVP** and **SaaS**.
 A single-module Flask app for quick prototyping and small projects.
 
 ```bash
-flaskit myapp --template mvp
+flaskit create myapp --template mvp
 ```
 
 ### Structure
@@ -50,7 +50,7 @@ myapp/
 A modular blueprint-based app with an app factory, SQLAlchemy, and feature modules.
 
 ```bash
-flaskit myapp --template saas --db postgresql
+flaskit create myapp --template saas --db postgresql
 ```
 
 ### Structure

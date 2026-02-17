@@ -1,4 +1,6 @@
 # flaskit/cli.py
+import sys
+import time
 import platform
 import subprocess
 import shutil
@@ -100,6 +102,48 @@ def create(
         else:
             console.print("\n[yellow]⚠️ VS Code command not found. Looked for: code, code-oss, codium.[/]")
             console.print("[yellow]  Install VS Code and ensure it's on your PATH.[/]")
+
+@app.command()
+def demo():
+    """Generate a hello-flaskit MVP project and run it instantly."""
+    project = "hello-flaskit"
+    root = Path(project).resolve()
+
+    if root.exists():
+        console.print(f"[yellow]⚠️ '{project}' already exists. Remove it first or run from another directory.[/]")
+        raise typer.Exit(1)
+
+    console.print(Panel("⚡ FlaskIt Demo — watch a project come to life in seconds", style="bold cyan", expand=False))
+
+    # Generate the project
+    generator = Generator(root)
+    with Progress(SpinnerColumn(), TextColumn("[progress.description]{task.description}"), BarColumn(), TimeElapsedColumn(), console=console) as progress:
+        task = progress.add_task("Scaffolding hello-flaskit...", total=1)
+        generator.generate_mvp()
+        progress.update(task, advance=1)
+
+    console.print(f"\n[green]✅ Created {project}/ with MVP template[/]")
+
+    # Check Flask is available
+    flask_check = subprocess.run([sys.executable, "-c", "import flask"], capture_output=True)
+    if flask_check.returncode != 0:
+        console.print("[yellow]⚠️ Flask is not installed. Installing...[/]")
+        install = subprocess.run([sys.executable, "-m", "pip", "install", "flask", "-q"], capture_output=True)
+        if install.returncode != 0:
+            console.print("[red]Could not install Flask automatically.[/]")
+            console.print(f"[yellow]Install it manually, then run:[/]\n  cd {project}\n  python main.py")
+            raise typer.Exit(1)
+
+    # Launch the dev server
+    console.print(f"\n[bold cyan]Starting dev server → http://127.0.0.1:5000[/]")
+    console.print("[dim]Press Ctrl+C to stop[/]\n")
+    time.sleep(1)
+    try:
+        subprocess.run([sys.executable, str(root / "main.py")])
+    except KeyboardInterrupt:
+        console.print("\n[green]Server stopped. Your project is at:[/]")
+        console.print(f"  cd {project}")
+
 
 if __name__ == "__main__":
     app()

@@ -27,12 +27,22 @@ Verify the installation:
 flaskit --help
 ```
 
-## Quick Start
+## Quick Demo
 
-### Create an MVP project
+The fastest way to see FlaskIt in action:
 
 ```bash
-flaskit myapp
+flaskit demo
+```
+
+This scaffolds a `hello-flaskit/` MVP project, installs Flask if it's missing, and starts the dev server at `http://127.0.0.1:5000`. Press `Ctrl+C` to stop the server. The generated project stays on disk for you to explore.
+
+## Creating Projects
+
+### MVP project
+
+```bash
+flaskit create myapp
 ```
 
 This generates a minimal Flask app with a single module. Start it with:
@@ -45,10 +55,10 @@ python main.py
 
 Visit `http://127.0.0.1:5000` in your browser.
 
-### Create a SaaS project
+### SaaS project
 
 ```bash
-flaskit myapp --template saas --db postgresql
+flaskit create myapp --template saas --db postgresql
 ```
 
 This generates a modular blueprint-based app with SQLAlchemy. Start it with:
@@ -64,7 +74,7 @@ python run.py
 Add common project files in a single command:
 
 ```bash
-flaskit myapp --template saas --gitignore --readme --dockerfile --env-file
+flaskit create myapp --template saas --gitignore --readme --dockerfile --env-file
 ```
 
 | Flag           | Generates                                      |
@@ -79,7 +89,7 @@ flaskit myapp --template saas --gitignore --readme --dockerfile --env-file
 Pass `--vscode` to launch VS Code automatically after generation:
 
 ```bash
-flaskit myapp --vscode
+flaskit create myapp --vscode
 ```
 
 FlaskIt detects `code`, `code-oss`, and `codium` commands across Windows, macOS, and Linux.
@@ -92,4 +102,4 @@ Install tab-completion for your shell:
 flaskit --install-completion
 ```
 
-After restarting your shell, `Tab` will complete option names and values (`--template` suggests `mvp`/`saas`, `--db` suggests `sqlite`/`postgresql`).
+After restarting your shell, `Tab` will complete commands (`create`, `demo`), option names, and values (`--template` suggests `mvp`/`saas`, `--db` suggests `sqlite`/`postgresql`).
