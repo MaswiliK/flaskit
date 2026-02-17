@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flaskit"
+version = "0.1.0"
+description = "Flask Project Generator CLI - Just flask it"
+authors = [{name = "Maswili", email = "devmaswili@gmail.com"}]
+dependencies = ["typer[all]", "rich"]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+keywords = ["flask", "cli", "generator", "scaffold", "project"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Framework :: Flask",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Code Generators",
+]
+
+[project.urls]
+Homepage = "https://github.com/devmaswili/flaskit"
+Issues = "https://github.com/devmaswili/flaskit/issues"
+
+[project.scripts]
+flaskit = "flaskit.cli:app"
