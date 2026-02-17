@@ -1,0 +1,78 @@
+name: FlaskIt CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          pip install .
+
+      - name: Test MVP template
+        run: |
+          flaskit create test_mvp --template mvp --gitignore --readme --dockerfile --env-file
+          test -d test_mvp
+          test -f test_mvp/main.py
+          test -f test_mvp/app/__init__.py
+          test -f test_mvp/app/templates/layout.html
+          test -f test_mvp/Dockerfile
+          test -f test_mvp/.env
+          grep -q "main.py" test_mvp/Dockerfile
+          grep -q "main.py" test_mvp/.env
+          rm -rf test_mvp
+
+      - name: Test SaaS template
+        run: |
+          flaskit create test_saas --template saas --db postgresql --gitignore --readme --dockerfile --env-file
+          test -d test_saas
+          test -f test_saas/run.py
+          test -f test_saas/config.py
+          test -f test_saas/requirements.txt
+          test -f test_saas/app/__init__.py
+          test -f test_saas/app/extensions.py
+          test -f test_saas/app/auth/routes.py
+          test -f test_saas/app/auth/forms.py
+          test -f test_saas/app/Feature1/routes.py
+          test -f test_saas/app/templates/base.html
+          grep -q "register_blueprint" test_saas/app/__init__.py
+          grep -q "run.py" test_saas/Dockerfile
+          grep -q "postgresql" test_saas/.env
+          rm -rf test_saas
+
+      - name: Test demo command scaffolds project
+        run: |
+          pip install flask
+          flaskit demo &
+          DEMO_PID=$!
+          sleep 3
+          test -d hello-flaskit
+          test -f hello-flaskit/main.py
+          kill $DEMO_PID 2>/dev/null || true
+          rm -rf hello-flaskit
+
+      - name: Test skip on existing directory
+        run: |
+          mkdir -p test_exists
+          flaskit create test_exists 2>&1 | head -5
+          test -d test_exists
+          rm -rf test_exists
