@@ -27,7 +27,7 @@ jobs:
         run: python -c "from flaskit.cli import app; print('Import OK')"
 
       - name: Verify --help works
-        run: flaskit --help
+        run: python -m flaskit --help
 
   # ── Stage 2: cross-platform template tests (depends on lint) ────────
   test:
@@ -59,8 +59,9 @@ jobs:
           import subprocess, pathlib, sys
 
           subprocess.run(
-              ["flaskit", "create", "test_mvp", "--template", "mvp",
-               "--gitignore", "--readme", "--dockerfile", "--env-file"],
+              [sys.executable, "-m", "flaskit", "create", "test_mvp",
+               "--template", "mvp", "--gitignore", "--readme",
+               "--dockerfile", "--env-file"],
               check=True,
           )
 
@@ -94,12 +95,12 @@ jobs:
       - name: Test SaaS template
         shell: python
         run: |
-          import subprocess, pathlib
+          import subprocess, pathlib, sys
 
           subprocess.run(
-              ["flaskit", "create", "test_saas", "--template", "saas",
-               "--db", "postgresql", "--gitignore", "--readme",
-               "--dockerfile", "--env-file"],
+              [sys.executable, "-m", "flaskit", "create", "test_saas",
+               "--template", "saas", "--db", "postgresql", "--gitignore",
+               "--readme", "--dockerfile", "--env-file"],
               check=True,
           )
 
@@ -144,18 +145,20 @@ jobs:
       - name: Test input validation
         shell: python
         run: |
-          import subprocess
+          import subprocess, sys
 
           # Unknown template should not crash
           result = subprocess.run(
-              ["flaskit", "create", "test_fallback", "--template", "bogus"],
+              [sys.executable, "-m", "flaskit", "create", "test_fallback",
+               "--template", "bogus"],
               capture_output=True, text=True,
           )
           assert result.returncode == 0, f"Unknown template caused crash: {result.stderr}"
 
           # Unknown db should not crash
           result = subprocess.run(
-              ["flaskit", "create", "test_fallback_db", "--db", "mysql"],
+              [sys.executable, "-m", "flaskit", "create", "test_fallback_db",
+               "--db", "mysql"],
               capture_output=True, text=True,
           )
           assert result.returncode == 0, f"Unknown db caused crash: {result.stderr}"
@@ -165,12 +168,15 @@ jobs:
       - name: Test skip on existing files
         shell: python
         run: |
-          import subprocess, pathlib
+          import subprocess, sys
 
           # Create project twice — second run should skip existing files, not crash
-          subprocess.run(["flaskit", "create", "test_skip"], check=True)
+          subprocess.run(
+              [sys.executable, "-m", "flaskit", "create", "test_skip"],
+              check=True,
+          )
           result = subprocess.run(
-              ["flaskit", "create", "test_skip"],
+              [sys.executable, "-m", "flaskit", "create", "test_skip"],
               capture_output=True, text=True,
           )
           assert result.returncode == 0, f"Re-run on existing dir crashed: {result.stderr}"
@@ -197,9 +203,30 @@ jobs:
           pip install flask
 
       - name: Run demo and verify
+        shell: python
         run: |
-          timeout 8 flaskit demo || true
-          test -d hello-flaskit
-          test -f hello-flaskit/main.py
-          test -f hello-flaskit/app/__init__.py
-          echo "Demo smoke test: passed"
+          import subprocess, pathlib, sys, time, signal
+
+          # Start demo in background
+          proc = subprocess.Popen(
+              [sys.executable, "-m", "flaskit", "demo"],
+              stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+          )
+
+          # Wait for scaffolding to finish
+          time.sleep(5)
+
+          # Verify project was created
+          root = pathlib.Path("hello-flaskit")
+          assert root.is_dir(), "hello-flaskit/ not created"
+          assert (root / "main.py").is_file(), "main.py not created"
+          assert (root / "app/__init__.py").is_file(), "app/__init__.py not created"
+
+          # Clean up server
+          proc.terminate()
+          try:
+              proc.wait(timeout=5)
+          except subprocess.TimeoutExpired:
+              proc.kill()
+
+          print("Demo smoke test: passed")
