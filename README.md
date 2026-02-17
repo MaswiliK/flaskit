@@ -15,7 +15,7 @@
 ![CI](https://github.com/MaswiliK/flaskit/actions/workflows/ci.yml/badge.svg)
 ![PyPI](https://img.shields.io/pypi/v/flaskit)
 ![Python](https://img.shields.io/pypi/pyversions/flaskit)
-![License](https://img.shields.io/pypi/l/flaskit)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow)
 
 ## ✨ What is FlaskIt?
 
