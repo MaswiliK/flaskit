@@ -230,13 +230,6 @@ def get_venv_python(root: Path) -> Path:
     return root / ".venv" / "bin" / "python"
 
 
-def get_venv_pip(root: Path) -> Path:
-    """Return the path to pip inside the virtual environment."""
-    if platform.system() == "Windows":
-        return root / ".venv" / "Scripts" / "pip.exe"
-    return root / ".venv" / "bin" / "pip"
-
-
 @app.command()
 def up(
     skip_venv: bool = typer.Option(
@@ -468,7 +461,7 @@ except ImportError:
         migrations_dir = root / "migrations"
         if migrations_dir.exists():
             # Run flask db upgrade
-            env = {**subprocess.os.environ, "FLASK_APP": flask_app}
+            env = {**os.environ, "FLASK_APP": flask_app}
             result = subprocess.run(
                 [str(venv_python), "-m", "flask", "db", "upgrade"],
                 capture_output=True,
@@ -511,10 +504,6 @@ except ImportError:
         )
         console.print(Panel("[green]✓ FlaskIt project is ready![/]", expand=False))
         console.print(f"\nTo start the server manually:\n  {venv_python} {entry_point}")
-
-
-# Alias 'new' to 'create' for convenience
-app.command("new")(create)
 
 
 if __name__ == "__main__":
