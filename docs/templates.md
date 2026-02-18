@@ -64,10 +64,12 @@ myapp/
     ├── __init__.py             # App factory with blueprint registration
     ├── extensions.py           # SQLAlchemy db instance
     ├── auth/
+    │   ├── __init__.py         # Package marker
     │   ├── routes.py           # Auth blueprint with /auth/login route
     │   ├── models.py           # User/Role models (imports db)
     │   └── forms.py            # WTForms for auth
     ├── Feature1/
+    │   ├── __init__.py         # Package marker
     │   ├── routes.py           # Feature1 blueprint
     │   ├── models.py           # Feature1 models (imports db)
     │   └── services.py         # Business logic

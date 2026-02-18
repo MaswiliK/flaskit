@@ -29,7 +29,7 @@ flaskit/
 
 ## Architecture Notes
 
-- **`cli.py`** owns all user-facing I/O: the `create` and `demo` commands, argument parsing, validation, Rich progress/table/panel output, optional file generation, VS Code launch logic, and autocompletion callbacks.
+- **`cli.py`** owns all user-facing I/O: the `create`, `demo`, and `up` commands, argument parsing, validation, Rich progress/table/panel output, optional file generation, VS Code launch logic, and autocompletion callbacks.
 - **`generator.py`** owns project scaffolding: creating directories and writing files. It tracks everything it creates in `generated_items` (list of tuples) which the CLI consumes for the summary table.
 - Generated file contents are **inline strings** in `generator.py`, not external template files. If you add a new generated file, add the content as a string directly in the appropriate `generate_*` method.
 - The `generated_items` list contains Rich markup (color tags and emoji). This couples Generator to Rich, which is intentional — the CLI consumes it directly.
@@ -57,6 +57,7 @@ flaskit/
 
 - Keep PRs focused on a single change.
 - Test both templates manually (`flaskit create testmvp --template mvp` and `flaskit create testsaas --template saas`) before submitting.
+- Run `cd testmvp && flaskit up --no-server` to verify the up command works end-to-end.
 - Run `flaskit demo` to verify the demo flow still works.
 - Clean up generated test directories after testing.
 
@@ -158,7 +159,7 @@ Examples:
 From a clean directory:
 
 ```
-flaskit new sample
+flaskit create sample
 cd sample
 flaskit up
 ```

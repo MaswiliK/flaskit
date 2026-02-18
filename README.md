@@ -108,6 +108,31 @@ flaskit create <project_name> [OPTIONS]
 
 ---
 
+### Bootstrap a project
+
+```
+flaskit up [OPTIONS]
+```
+
+Run this from inside a generated project directory. It handles everything in one shot:
+
+1. Create `.venv/` virtual environment
+2. Install dependencies from `requirements.txt`
+3. Create `.env` (copies `.env.example` if present, otherwise writes defaults)
+4. Initialise the database
+5. Run migrations (if `migrations/` exists)
+6. Start the dev server
+
+| Option           | Description                               |
+| ---------------- | ----------------------------------------- |
+| `--skip-venv`    | Skip virtual environment creation         |
+| `--skip-deps`    | Skip dependency installation              |
+| `--skip-db`      | Skip database initialisation              |
+| `--skip-migrate` | Skip migrations                           |
+| `--no-server`    | Bootstrap without starting the dev server |
+
+---
+
 ### Demo project
 
 ```
@@ -145,7 +170,7 @@ flaskit --install-completion
 
 Then `Tab` will autocomplete:
 
-* commands (`create`, `demo`)
+* commands (`create`, `demo`, `up`)
 * template types (`mvp`, `saas`)
 * database options
 
