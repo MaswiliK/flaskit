@@ -67,9 +67,9 @@ pip install -e .
 ## 🚀 2-Second Demo
 
 See FlaskIt generate and run a backend automatically:
-## 🎮 Demo
 
 ![Flaskit Demo](docs/flaskit.gif)
+
 
 ```bash
 flaskit demo
@@ -247,3 +247,4 @@ If FlaskIt helped you — consider ⭐ starring the repo.
 ## 📄 License
 
 MIT
+
